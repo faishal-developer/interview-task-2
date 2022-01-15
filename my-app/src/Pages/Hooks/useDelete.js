@@ -2,13 +2,8 @@ import { useState } from "react";
 
 const useDelete = () => {
     let [existingOrders, setExistingOrders] = useState([])
-    const [open, setOpen] = useState([false, '', '']);
 
-    const handleClose = () => {
-        setOpen(false, '');
-    };
-
-    const handleDelete = (orderId) => {
+    const handleDelete = (orderId,setOrders) => {
 
         fetch('https://hidden-forest-46700.herokuapp.com/orders', {
             method: 'DELETE',
@@ -22,21 +17,16 @@ const useDelete = () => {
                         return order?._id !== orderId
                     })
                     setExistingOrders(orders)
-                    setOpen([true, 'successfull', 'deleted successfully'])
-                } else {
-                    setOpen([true, "Error", 'error occured'])
-                }
+                    setOrders(orders)
+                } 
             })
-            .catch(e => setOpen([true, 'Error', e.message]))
+            .catch(e => alert('error'))
     }
 
     return {
         existingOrders,
         setExistingOrders,
         handleDelete,
-        open,
-        setOpen,
-        handleClose
     }
 };
 

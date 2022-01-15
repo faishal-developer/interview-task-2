@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import MyOrders from "./Pages/Dashboard/MyOrders/MyOrders";
 import Home from "./Pages/Home/Home";
 import AuthProvider from "./Pages/Hooks/AuthProvider";
 import Login from "./Pages/Login/Login";
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/myorder" element={<MyOrders />} />
           <Route path="/products/:id" element={<OneService />} />
       </Routes>
       <Footer/>

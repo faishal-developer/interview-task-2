@@ -29,8 +29,8 @@ export default function MenuBar() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Link to="/">Home</Link>
-                        <Link to="/myorder">My Orders</Link>
+                        <Link className='p-3 text-decoration-none text-light' to="/">Home</Link>
+                        <Link className='p-3 text-decoration-none text-light' to="/myorder">My Orders</Link>
                     </Nav>
                     <Nav>
                         {toggleUser()}

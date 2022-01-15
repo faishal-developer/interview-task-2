@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 import SingleService from './SingleService';
 
 const Service = (props) => {
@@ -24,6 +25,11 @@ const Service = (props) => {
                 console.log('')
             })
     }, [])
+    if(cycles.length<1){
+        return <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
+    }
     
     return (
         <div>

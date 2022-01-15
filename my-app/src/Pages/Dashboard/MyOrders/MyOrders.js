@@ -1,41 +1,43 @@
-import React, { useEffect } from 'react';
-import CustomizedDialogs from '../../Dialog/Dialog';
+import React, { useContext, useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { MyContext } from '../../Hooks/AuthProvider';
 import useDelete from '../../Hooks/useDelete';
-import useFindOrder from '../../Hooks/useFindOrder';
-import SkeletonOrders from '../../shared/Skeleton/SkeletonOrders';
-import SingleOrders from '../ManageAllOrders/SingleOrders';
+import SingleOrders from './SingleOrders';
 
 const MyOrders = () => {
-    const { handleDelete } = useDelete()
-    const { FetchOrder, open, setOpen, existingOrders, user, isLoading, orderLoading } = useFindOrder()
+    const { handleDelete, existingOrders, setExistingOrders } = useDelete()
+    const [orders,setOrders] = useState([])
+    const { user, isLoading } = useContext(MyContext)
 
-    const handleClose = () => {
-        setOpen(false, '');
-    };
 
     useEffect(() => {
-        FetchOrder()
-    }, [user, isLoading])
-
-
-    if (orderLoading && existingOrders.length < 1) {
-        return (
-            <>
-                <SkeletonOrders />
-            </>
-        )
+            fetch('https://hidden-forest-46700.herokuapp.com/getOrders', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ email: user.email })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setExistingOrders(data)
+                    setOrders(data)
+                })
+                .catch((e) => {
+                    alert(e.message)
+                })
+    }, [user.email,setExistingOrders])
+    console.log(orders);
+    if(orders.length<1){
+        return <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+        </Spinner>
     }
+
     return (
-        <>
-            {
-                (open[0] && existingOrders.length < 1) ? (
-                    <CustomizedDialogs handleClose={handleClose} open={open[0]} heading={open[1]} description={open[2]} />
-                ) : (existingOrders.length < 1 && <h1>No Order Placed Yet</h1>)
-            }
-            {
-                existingOrders.map((order, id) => <SingleOrders handleDelete={handleDelete} order={order} admin={false} key={id} />)
-            }
-        </>
+        <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3'>
+           {
+             orders.length>=1 &&  orders.map((order,i)=><SingleOrders setOrders={setOrders} key={i} delete={handleDelete} order={order}/>)
+           } 
+        </div>
     );
 };
 

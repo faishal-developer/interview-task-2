@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { MyContext } from '../Hooks/AuthProvider';
 
 const OneService = () => {
     const [product, setProduct] = useState({})
-    const { productsId } = useParams()
+    const { id } = useParams()
     const [order, setOrder] = useState({})
     const { user } = useContext(MyContext)
 
@@ -21,7 +21,7 @@ const OneService = () => {
         newOrder.userName = user.displayName;
         newOrder.email = user.email;
         newOrder.productName = product.productBrand;
-        newOrder.productId = productsId;
+        newOrder.productId = id;
         newOrder.image = product.image
         newOrder.price = product.price
         fetch(`https://hidden-forest-46700.herokuapp.com/orders`, {
@@ -44,12 +44,12 @@ const OneService = () => {
     }
 
     useEffect(() => {
-        fetch(`https://hidden-forest-46700.herokuapp.com/bycycles/${productsId}`)
+        fetch(`https://hidden-forest-46700.herokuapp.com/bycycles/${id}`)
             .then(res => res.json())
             .then(data => setProduct(data))
             .catch(e => alert(e.message))
-    }, [productsId])
-    console.log(productsId);
+    }, [id])
+    console.log(id);
     return (
         <div className='row row-cols-1 row-cols-md-2'>
             <div className='col'>
@@ -67,6 +67,7 @@ const OneService = () => {
             <div  className='col'>
                 <form onSubmit={handleSubmit}>
                     <input
+                        placeholder="district"
                         onChange={handleChange}
                         required
                         style={{ width: '100%', marginRight: '2%' }}
@@ -75,6 +76,7 @@ const OneService = () => {
                         name="district"
                     /><br />
                     <input
+                        placeholder="upazilla"
                         onChange={handleChange}
                         required
                         style={{ width: '100%', marginRight: '2%' }}
@@ -83,6 +85,7 @@ const OneService = () => {
                         name="upazilla"
                     /><br />
                     <input
+                        placeholder="citycode"
                         onChange={handleChange}
                         required
                         id="filled-required"
@@ -91,7 +94,7 @@ const OneService = () => {
                         name="villageOrCityCode"
                     />
                     <br />
-                    <Button style={{ width: '100%', marginRight: '2%' }} variant="contained" type="submit">Confirm Order</Button>
+                    <Button style={{ width: '100%', marginRight: '2%' }} className='btn' type="submit">Confirm Order</Button>
                 </form>
             </div>
         </div>
