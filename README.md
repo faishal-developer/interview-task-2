@@ -2,7 +2,8 @@
 ## my app is react part and node-part is backend part
 [live link](https://competent-lalande-a6e311.netlify.app/)
 ## use case
-* this is for selling bycycle
+* this is for selling bycycle and any kind of ecommerce buisness you can use these
+* You can save data what users orders
 * user can login, log out, register
 * user also can place order and can manage her order
 # EDIT
